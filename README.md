@@ -5,14 +5,21 @@ Requirements
 For users with CUDA version > 11.7
 
 eelGNN requires new environment with python=3.11 from anaconda. We used conda 23.1.0
+
 conda create -n eel_gnn python=3.11
+
 After creating new environment, the following commands are required to install packages.
 
 conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.7 -c pytorch -c nvidia
+
 pip install torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.0.1+cu117.html
+
 conda install pandas
+
 pip install -U scikit-learn
+
 pip install rdkit
+
 conda install openpyxl
 
 
