@@ -1,4 +1,4 @@
-**Revealing the Impact of Aggregations in the Graph-based Molecular Machine Learning: Electrostatic Interaction versus Pooling Methods**
+****Revealing the Impact of Aggregations in the Graph-based Molecular Machine Learning: Electrostatic Interaction versus Pooling Methods****
 
 Requirements
 
@@ -69,9 +69,3 @@ Fifth one: Which pooling do you want to use?
 For example, you can input
 python main.py 5 2 1 2 1
 to predict extinction coefficient with eelGCN_Gasteiger, using single intermolecular edge types and using mean aggregation and add pooling.
-
-
-Contact and additional links
-E-mail : hwk@gist.ac.kr 
-Homepage : Home
-Nov 2x, 2024 First uploaded
