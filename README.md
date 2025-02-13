@@ -1,116 +1,101 @@
-****Revealing the Impact of Aggregations in the Graph-based Molecular Machine Learning: Electrostatic Interaction versus Pooling Methods****
+# Revealing the Impact of Aggregations in the Graph-based Molecular Machine Learning: Electrostatic Interaction versus Pooling Methods
+***
 
-Requirements
+<img src="eelgnn_structure.png" width=90% height=90%>
 
-For users with CUDA version > 11.7
+- **https://doi.org/10.26434/chemrxiv-2024-sbwxm: Paper is uploaded in ChemRxiv**
 
-eelGNN requires new environment with python=3.11 from anaconda. We used conda 23.1.0
+### This repository includes code for electrostatic edge linked Graph Convolution Network (eelGCN) and Graph Convolution Network (GCN).
 
-conda create -n eel_gnn python=3.11
+***
 
-After creating new environment, the following commands are required to install packages.
-
-conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.7 -c pytorch -c nvidia
-
-pip install torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.0.1+cu117.html
-
-conda install pandas
-
-pip install -U scikit-learn
-
-pip install rdkit
-
-conda install openpyxl
+### Type below command to generate new environment
 
 
-If you want to use eelGNN_espaloma, you have to install additional packages via GitHub - choderalab/espaloma_charge: Standalone charge assignment from Espaloma framework. or taking following commands
+>1. conda create -n eel_gnn python=3.11
+>1. conda activate eel_gnn
+>1. conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.7 -c pytorch -c nvidia
+>1. pip install torch_scatter torch_sparse torch_cluster torch_spline_conv torch-geometric -f https://data.pyg.org/whl/torch-2.0.1+cu117.html
+>1. conda install pandas
+>1. pip install -U scikit-learn
+>1. pip install rdkit
+>1. conda install openpyxl
+
+### In addition, below command is required for $\mathrm{eelGCN_{E}}$'s implementation
+
+>8. conda install -c dglteam/label/th20_cu117 dgl
+>9. pip install espaloma_charge
+>10. pip install packaging
+***
+
+## Requirements for CUDA.version <= 11.7 (or for whom above does not work)
+
+### You can install older packages using below commands
+
+>1. conda create -n alt_env python=3.10
+>1. conda activate alt_env
+>1. conda install pytorch==1.13.1 torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+>1. pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
+>1. conda install pandas
+>1. pip install -U scikit-learn
+>1. pip install rdkit
+>1. conda install openpyxl
+
+### $\mathrm{eelGNN_{E}}$ is not directly available in this case.
+
+This is because $\mathrm{eelGCN_{E}}$ supports python >= 3.11, and python of this version doesn't support CUDA.version <= 11.7
+
+#### Still, $\mathrm{eelGCN_{E}}$ could be implement by using below secondhand method.
+> - Create other environment with python=3.11
+> - Install Espaloma charge
+> - Generate the pickle file which contains Espaloma charge information
+> - Activate alt_env and use generated pickle file for $\mathrm{eelGCN_{E}}$'s implementation
+
+***
+## Code execution
+
+### 1. Calculate partial charge of molecules and save charge data as a pkl file. This procedure is not required for $\mathrm{eelGCN_{P}}$.
+### run `./utils/partial_charge.py` (alg = 'espaloma' or 'gasteiger')
+#### This procedure can be skipped because the charge of chromophore data is prepared in both espaloma and gasteiger charge.
 
 
-conda install -c dglteam/label/th20_cu117 dgl
 
-pip install espaloma_charge
+### 2. Determine the set of number as following
 
-pip install packaging
+> i) Which property do you want to predict?
+> 1. maximum absorption wavelength [$\mathrm{nm}$]
+> 2. maximum emission wavelength [$\mathrm{nm}$]
+> 3. fluorescence lifetime ($\log_{10}$ value)
+> 4. photoluminescence quantum yield ($\log_{10}$ value)
+> 5. extinction coefficient ($\log_{10}$ value)
+> 6. absorption bandwidth [$\mathrm{cm^{-1}}$]
+> 7.  emission bandwidth [$\mathrm{cm^{-1}}$]
+> 8. solubility (ESOL)
+> 9. molar mass (ESOL)
 
+> ii) Which model do you want to use?
+> 1. $\mathrm{eelGCN_{E}}$
+> 1. $\mathrm{eelGCN_{G}}$
+> 1. $\mathrm{eelGCN_{P}}$
+> 1. $\mathrm{GCN}$
 
-% For users with CUDA --version <= 11.7 or whom above command doesn’t work
+> iii) How many edge types do you want for intermolecular edges?
+> 1. 1
+> 2. 2
+> 3. 4
 
-You can install older packages using below commands, but in this case eelGNN_espaloma is unavailable since it supports python >= 3.11
+> iv) Which aggregation function do you want to use?
+> 1. add
+> 2. mean
 
-conda create -n alt_env python=3.10
+> v) Which pooling function do you want to use?
+> 1. add
+> 2. mean
 
-conda install pytorch==1.13.1 torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+### 3. Run `./main.py` with the pre-determined set of number
 
-pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
+#### For example, you can input
 
-conda install pandas
+#### **`python main.py 5 2 1 2 1`**
 
-pip install -U scikit-learn
-
-pip install rdkit
-
-conda install openpyxl
-
-
-
-Implementation
-(Optional) 1. Calculate partial charge of molecules and save charge data as a pkl file. This procedure is not required for eelGNN_Pauling. In addition, the charge of chromophore data is prepared in both espaloma and gasteiger charge.
-
-2. Determine the set of number as following
-
-First one: Which property do you want to predict?
-
-①	maximum absorption wavelength [nm]
-
-②	maximum emission wavelength [nm]
-
-③	fluorescence lifetime (log10 value)
-
-④	photoluminescence quantum yield (log10 value)
-
-⑤	extinction coefficient (log10 value)
-
-⑥	absorption bandwidth [cm-1]
-
-⑦	emission bandwidth [cm-1]
-
-⑧	solubility (ESOL)
-
-⑨	molar mass (ESOL) 
-
-Second one: Which model do you want to use?
-
-①	eelGCN_Espaloma
-
-②	eelGCN_Gasteiger
-
-③	eelGCN_Pauling
-
-④	GCN
-
-Third one: How many edge types do you want for intermolecular edges?
-
-①	1
-
-②	2
-
-③	4
-
-Fourth one: Which aggregation do you want to use?
-
-①	add
-
-②	mean
-
-Fifth one: Which pooling do you want to use?
-
-①	add
-
-②	mean
-
-3. execute the main.py with your settings.
-
-For example, you can input
-
-python main.py 5 2 1 2 1
-to predict extinction coefficient with eelGCN_Gasteiger, using single intermolecular edge types and using mean aggregation and add pooling.
+#### to predict extinction coefficient with $\mathrm{eelGCN_{G}}$, using single intermolecular edge types and using mean aggregation and add pooling.
