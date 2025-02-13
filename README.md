@@ -5,7 +5,8 @@
 
 - **https://doi.org/10.26434/chemrxiv-2024-sbwxm: Paper is uploaded in ChemRxiv**
 
-### This repository includes code for electrostatic edge linked Graph Convolution Network (eelGCN) and Graph Convolution Network (GCN).
+### Repository for electrostatic edge linked Graph Convolution Network (eelGCN) and Graph Convolution Network (GCN)
+While this may not be of the highest quality, I hope that it may be of some use to researchers.
 
 ***
 
@@ -94,7 +95,7 @@ This is because $\mathrm{eelGCN_{E}}$ supports python >= 3.11, and python of thi
 
 ### 3. Run `./main.py` with the pre-determined set of number
 
-#### For example, you can input
+#### For example, you can type the following command. 
 
 #### **`python main.py 5 2 1 2 1`**
 
