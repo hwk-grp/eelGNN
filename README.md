@@ -6,7 +6,6 @@
 - **https://doi.org/10.26434/chemrxiv-2024-sbwxm: Paper is uploaded in ChemRxiv**
 
 ### Repository for electrostatic edge linked Graph Convolution Network (eelGCN) and Graph Convolution Network (GCN)
-While this may not be of the highest quality, I hope that it may be of some use to researchers.
 
 ***
 
