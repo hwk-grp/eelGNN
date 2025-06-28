@@ -3,7 +3,7 @@
 
 <img src="eelgnn_structure.png" width=90% height=90%>
 
-- **https://doi.org/10.26434/chemrxiv-2024-sbwxm: Paper is uploaded in ChemRxiv**
+- **https://doi.org/10.26434/chemrxiv-2024-sbwxm**
 
 ### Repository for electrostatic edge linked Graph Convolution Network (eelGCN) and Graph Convolution Network (GCN)
 
