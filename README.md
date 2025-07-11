@@ -23,7 +23,7 @@
 
 ### In addition, below command is required for $\mathrm{eelGCN_{E}}$'s implementation
 
->8. conda install -c dglteam/label/th20_cu117 dgl
+>8. conda install -c dglteam/label/cu117 dgl
 >9. pip install espaloma_charge
 >10. pip install packaging
 ***
